@@ -9,11 +9,9 @@ audio.addEventListener('click', toggleMute)
 video.addEventListener('click', toggleVideo)
 
 function toggleMute() {
-    applescript.execFile("./applescripts/zoomaudio.scpt")
-    alert('You clicked the mute button.')
+    applescript.execFile("./applescripts/zoomaudio.applescript")
 }
 
 function toggleVideo() {
     applescript.execFile("./applescripts/zoomvideo.scpt")
-    alert('You clicked the video button.')
 }
