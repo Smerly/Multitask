@@ -3,15 +3,24 @@
 
 // Event Listners for our html buttons that will be able to execute commands
 
-const applescript = require('applescript');
+var applescript = require("applescript");
 
-audio.addEventListener('click', toggleMute)
-video.addEventListener('click', toggleVideo)
+const AUDIO_BTN = document.getElementById('audio');
+const VIDEO_BTN = document.getElementById('video');
 
-function toggleMute() {
-    applescript.execFile("./applescripts/zoomaudio.applescript")
-}
+AUDIO_BTN.addEventListener('click', () => {
+    console.log("audio button clicked")
+    applescript.execFile("./applescripts/zoomaudio.applescript", function(err, rtn) {
+        if (err) {
+            // Something went wrong!
+            console.log("error")
+        }
+        if (rtn) {
+            console.log(rtn);
+        }
+    })
+});
 
-function toggleVideo() {
+VIDEO_BTN.addEventListener('click', () => {
     applescript.execFile("./applescripts/zoomvideo.scpt")
-}
+});
