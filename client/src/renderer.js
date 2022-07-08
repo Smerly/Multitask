@@ -7,4 +7,21 @@ async function UpdateStats() {
 CLOSE_BTN.addEventListener('click', () => {
 	api.close();
 });
+
+const AUDIO_BTN = document.getElementById('audio');
+const VIDEO_BTN = document.getElementById('video');
+
+AUDIO_BTN.addEventListener('click', () => {
+    console.log("audio button clicked");
+
+	api.audio();
+});
+
+VIDEO_BTN.addEventListener('click', () => {
+    console.log("video button clicked");
+
+	api.video();
+});
+
+
 setInterval(UpdateStats, 1000);
