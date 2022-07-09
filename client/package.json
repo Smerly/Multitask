@@ -45,8 +45,11 @@
     }
   },
   "dependencies": {
+    "applescript": "^1.0.0",
     "electron-reload": "^2.0.0-alpha.1",
     "electron-squirrel-startup": "^1.0.0",
+    "node-osascript": "^2.1.0",
+    "run-applescript": "^6.0.0",
     "systeminformation": "^5.11.21"
   },
   "devDependencies": {
