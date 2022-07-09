@@ -2,6 +2,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 require('electron-reload')(__dirname);
 const { ipcRenderer, ipcMain } = require('electron');
+var applescript = require("applescript");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line global-require
@@ -12,25 +13,25 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
 	// Create the browser window.
 	const mainWindow = new BrowserWindow({
-		width: 150,
-		height: 500,
-		maxHeight: 500,
-		minHeight: 500,
-		minWidth: 150,
-		maxWidth: 150,
-
-		// width: 500,
+		// width: 150,
 		// height: 500,
 		// maxHeight: 500,
 		// minHeight: 500,
-		// minWidth: 500,
-		// maxWidth: 500,
+		// minWidth: 150,
+		// maxWidth: 150,
+
+		width: 500,
+		height: 500,
+		maxHeight: 500,
+		minHeight: 500,
+		minWidth: 500,
+		maxWidth: 500,
 		border: '1px black solid',
 		frame: false,
 		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
-			devTools: false,
+			// devTools: false,
 		},
 		transparent: true,
 		alwaysOnTop: true,
@@ -43,6 +44,30 @@ const createWindow = () => {
 
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools();
+
+	ipcMain.on('audio', () => {
+		applescript.execFile("/Users/Temp/dev/courses/colab/Multitask/client/src/applescripts/zoomaudio.scpt", function(err, rtn) {
+			if (err) {
+				// Something went wrong!
+				console.log("error")
+			}
+			if (rtn) {
+				console.log(rtn);
+			}
+		})
+	})
+
+	ipcMain.on('video', () => {
+		applescript.execFile("/Users/Temp/dev/courses/colab/Multitask/client/src/applescripts/zoomvideo.scpt", function(err, rtn) {
+			if (err) {
+				// Something went wrong!
+				console.log("error")
+			}
+			if (rtn) {
+				console.log(rtn);
+			}
+		})
+	})
 };
 
 // This method will be called when Electron has finished
