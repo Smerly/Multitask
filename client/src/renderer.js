@@ -14,7 +14,7 @@ async function UpdateStats() {
 }
 
 let showing = true;
-window.localStorage.setItem('showing', showing);
+// window.localStorage.setItem('showing', showing);
 
 // Event Listeners (Where actions from preload are called)
 
@@ -38,22 +38,15 @@ if (VIDEO_BTN) {
 		api.video();
 	});
 }
+
 if (TOGGLE_SIDE_BAR) {
 	// Toggling sidebar arrow listener
-	TOGGLE_SIDE_BAR.addEventListener('click', () => {
+	TOGGLE_SIDE_BAR.addEventListener('mouseover', () => {
 		if (window.localStorage.getItem('showing') == 'true') {
 			window.localStorage.setItem('showing', false);
 		} else {
 			window.localStorage.setItem('showing', true);
 		}
-		// window.localStorage.setItem('showing', true);
-
-		// console.log(window.localStorage.getItem('showing'));
-		// window.localStorage.setItem(
-		// 	'showing',
-		// 	!Boolean(window.localStorage.getItem('showing'))
-		// );
-		// console.log(window.localStorage.getItem('showing'));
 		api.toggleSideBar(window.localStorage.getItem('showing'));
 	});
 }

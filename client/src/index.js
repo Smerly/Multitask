@@ -25,20 +25,20 @@ const createWindow = () => {
 		// minWidth: 150,
 		// maxWidth: 150,
 
-		// width: 30,
-		// height: 70,
+		width: 30,
+		height: 70,
 
-		width: 500,
-		height: 500,
-		maxHeight: 500,
-		minHeight: 500,
-		minWidth: 500,
-		maxWidth: 500,
+		// width: 500,
+		// height: 500,
+		// maxHeight: 500,
+		// minHeight: 500,
+		// minWidth: 500,
+		// maxWidth: 500,
 		border: '1px black solid',
 		frame: false,
 		autoHideMenuBar: true,
 		webPreferences: {
-			// devTools: false,
+			devTools: false,
 			preload: path.join(__dirname, 'preload.js'),
 		},
 		transparent: true,
@@ -48,19 +48,19 @@ const createWindow = () => {
 	});
 	// Main window
 	const mainWindow = new BrowserWindow({
-		// width: 150,
+		width: 150,
+		height: 500,
+		// maxHeight: 500,
+		// minHeight: 500,
+		minWidth: 150,
+		maxWidth: 150,
+
+		// width: 500,
 		// height: 500,
 		// maxHeight: 500,
 		// minHeight: 500,
-		// minWidth: 150,
-		// maxWidth: 150,
-
-		width: 500,
-		height: 500,
-		maxHeight: 500,
-		minHeight: 500,
-		minWidth: 500,
-		maxWidth: 500,
+		// minWidth: 500,
+		// maxWidth: 500,
 		border: '1px black solid',
 		frame: false,
 		autoHideMenuBar: true,
@@ -71,6 +71,8 @@ const createWindow = () => {
 		transparent: true,
 		alwaysOnTop: true,
 		// show: false,
+		x: -width,
+		y: Math.floor(height / 4),
 	});
 
 	// Initial loading of HTML files
@@ -91,11 +93,13 @@ const createWindow = () => {
 		if (arg === 'true') {
 			console.log('shown');
 			mainWindow.show();
+			arrowWindow.hide();
 		}
 		// If the sidebar was previously shown, then hide it
 		else if (arg === 'false') {
 			console.log('hidden');
 			mainWindow.hide();
+			arrowWindow.show();
 		}
 	});
 
