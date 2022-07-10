@@ -7,13 +7,21 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<div class="background">
+		<div class="background" id="background-toggle">
 			<h2 style="color: black">Zoom Controller</h2>
-			<button id="audio" class="util-button">Toggle Audio</button>
-			<button id="video" class="util-button">Toggle Video</button>
+			<button id="audio" class="util-button">
+				<img id="mute" style="height: 100%" src="./static/images/muted.png" />
+			</button>
+			<button id="video" class="util-button">
+				<img
+					id="camera"
+					style="height: 100%"
+					src="./static/images/cam-on.png"
+				/>
+			</button>
 			<p id="close">&#10006;</p>
 		</div>
-		<div id="toggle-side-bar" class="pullbar">
+		<div class="pullbar">
 			<div>
 				<i class="arrow right"></i>
 			</div>
