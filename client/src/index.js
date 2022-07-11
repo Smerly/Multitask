@@ -41,23 +41,23 @@ const createWindow = () => {
 	});
 	// Main window
 	const mainWindow = new BrowserWindow({
-		// width: 150,
-		// height: 500,
-		// minWidth: 150,
-		// maxWidth: 150,
-
-		width: 500,
+		width: 150,
 		height: 500,
-		maxHeight: 500,
-		minHeight: 500,
-		minWidth: 500,
-		maxWidth: 500,
+		minWidth: 150,
+		maxWidth: 150,
+
+		// width: 500,
+		// height: 500,
+		// maxHeight: 500,
+		// minHeight: 500,
+		// minWidth: 500,
+		// maxWidth: 500,
 		border: '1px black solid',
 		frame: false,
 		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
-			// devTools: false,
+			devTools: false,
 		},
 		transparent: true,
 		alwaysOnTop: true,

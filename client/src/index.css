@@ -5,7 +5,7 @@ body {
   max-width: 38rem;
   padding: 2rem; */
 
-	-webkit-app-region: drag;
+	/* -webkit-app-region: drag; */
 	background-color: transparent;
 	display: flex;
 	cursor: pointer;
