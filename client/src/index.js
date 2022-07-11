@@ -113,11 +113,11 @@ const createWindow = () => {
 	// Turning on video and turning off vide methods
 	ipcMain.on('video', () => {
 		applescript.execFile(
-			__dirname + '/applescripts/zoomvide.scpt',
+			__dirname + '/applescripts/zoomvideo.scpt',
 			function (err, rtn) {
 				if (err) {
 					// Something went wrong!
-					console.log('error');
+					console.log(err);
 				}
 				if (rtn) {
 					console.log(rtn);
