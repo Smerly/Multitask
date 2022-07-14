@@ -125,12 +125,36 @@ const createWindow = () => {
 			}
 		);
 	});
+	
 	// Open the DevTools.
 	arrowWindow.webContents.openDevTools();
 };
 
-// Run main function when the app is ready ton start
+// Run main function when the app is ready to start
 app.on('ready', createWindow);
+
+// Run status update applescript while the app is running
+// NOTE: DISCUSS WITH FRONTEND WHAT EVENT LISTENER TO USE
+app.on('did-become-active', () => {
+	applescript.execFile(
+		__dirname + '/applescripts/zoomstatus.scpt',
+		// Returns an array of boolean values	<------- MAY BE A STRING VALUE (e.g. 'true' vs. true)
+		function (err, rtn) {
+			if (err) {
+				// Something went wrong!
+				console.log(err);
+			}
+			if (rtn) {
+				/*
+				rtn[0] -- true: in a zoom meeting / false: not in a zoom meeting	<------- MAY BE REFERENCED FOR FUTURE FEATURE
+				rtn[1] -- true: muted / false: unmuted
+				rtn[2] -- true: video on / false: video off
+				*/
+				console.log(rtn);
+			}
+		}
+	);
+})
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
