@@ -138,26 +138,19 @@ app.on('ready', createWindow);
 app.on('did-become-active', () => {
 	applescript.execFile(
 		__dirname + '/applescripts/zoomstatus.scpt',
+		// Returns an array of boolean values	<------- MAY BE A STRING VALUE (e.g. 'true' vs. true)
 		function (err, rtn) {
 			if (err) {
 				// Something went wrong!
 				console.log(err);
 			}
 			if (rtn) {
+				/*
+				rtn[0] -- true: in a zoom meeting / false: not in a zoom meeting	<------- MAY BE REFERENCED FOR FUTURE FEATURE
+				rtn[1] -- true: muted / false: unmuted
+				rtn[2] -- true: video on / false: video off
+				*/
 				console.log(rtn);
-
-				// NOTE: FOR FUTURE FEATURE
-				// if (rtn[0] == 'true') {
-				// 	setMeeting()
-				// }
-
-				if (rtn[1] == 'true') {
-					// setMic()
-				}
-
-				if (rtn[2] == 'true') {
-					// setVideo()
-				}
 			}
 		}
 	);
