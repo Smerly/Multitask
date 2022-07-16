@@ -1,5 +1,7 @@
 // Getting HTML Ids
 
+const { ipcRenderer } = require('electron');
+
 // Close button
 const CLOSE_BTN = document.getElementById('close');
 // Audio button
@@ -13,10 +15,14 @@ const BACKGROUND = document.getElementById('background-toggle');
 
 // Helper vars
 
-let micState = false;
-let cameraState = true;
-let showing = true;
-let isMouseHover = false;
+let micCurrent = false;
+let cameraCurrent = false;
+let zoomCurrent = false;
+
+// let micState = false;
+// let cameraState = true;
+// let showing = true;
+// let isMouseHover = false;
 
 // Helper functions
 
@@ -24,6 +30,10 @@ let isMouseHover = false;
 async function UpdateStats() {
 	const usage = await api.getCurrentLoad();
 }
+
+// ipcRenderer.on('send-active', (evt, message) => {
+// 	console.log(message);
+// });
 
 // Setting the mic icon
 function setMic() {
@@ -128,5 +138,11 @@ if (BACKGROUND) {
 		}
 	});
 }
+
+// Makes it so it constantly checks the current statuses
+
+// setInterval(() => {
+// 	api.getActive();
+// }, 1000);
 
 setInterval(UpdateStats, 1000);
