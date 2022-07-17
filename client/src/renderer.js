@@ -1,7 +1,5 @@
 // Getting HTML Ids
 
-const { ipcRenderer } = require('electron');
-
 // Close button
 const CLOSE_BTN = document.getElementById('close');
 // Audio button
@@ -31,35 +29,96 @@ async function UpdateStats() {
 	const usage = await api.getCurrentLoad();
 }
 
-// ipcRenderer.on('send-active', (evt, message) => {
-// 	console.log(message);
-// });
-
 // Setting the mic icon
 function setMic() {
+	// if (
+	// 	document.getElementById('mute').src.match('./static/images/unmuted.png')
+	// ) {
+	// 	console.log('changed mute (was unmuted)');
+	// 	document.getElementById('mute').src = './static/images/muted.png';
+	// } else {
+	// 	console.log('changed mute (was muted)');
+	// 	document.getElementById('mute').src = './static/images/unmuted.png';
+	// }
+	// if (micCurrent === true) {
+	// 	document.getElementById('mute').src = './static/images/muted.png';
+	// } else if (micCurrent === false) {
+	// 	document.getElementById('mute').src = './static/images/unmuted.png';
+	// }
+	// If the mic is muted and the symbol is already muted
 	if (
+		micCurrent === 'true' &&
+		document.getElementById('mute').src.match('./static/images/muted.png')
+	) {
+		return;
+	}
+
+	// Else if the mic is unmuted and the symbol is already unmuted
+	else if (
+		micCurrent === 'false' &&
 		document.getElementById('mute').src.match('./static/images/unmuted.png')
 	) {
-		console.log('changed mute (was unmuted)');
+		return;
+	}
+
+	// Else if the mic is muted and the symbol is unmuted
+	else if (
+		micCurrent === 'true' &&
+		document.getElementById('mute').src.match('./static/images/unmuted.png')
+	) {
 		document.getElementById('mute').src = './static/images/muted.png';
-	} else {
-		console.log('changed mute (was muted)');
+	}
+
+	// Else if the mic is unmuted and the symbol is muted
+	else if (
+		micCurrent === 'false' &&
+		document.getElementById('mute').src.match('./static/images/muted.png')
+	) {
 		document.getElementById('mute').src = './static/images/unmuted.png';
 	}
 }
 
 // Setting the camera icon
 function setCamera() {
+	// if (
+	// 	document.getElementById('camera').src.match('./static/images/cam-off.png')
+	// ) {
+	// 	document.getElementById('camera').src = './static/images/cam-on.png';
+	// } else {
+	// 	document.getElementById('camera').src = './static/images/cam-off.png';
+	// }
+	// if the camera is on and the camera icon is on
 	if (
+		cameraCurrent === 'true' &&
+		document.getElementById('camera').src.match('./static/images/cam-on.png')
+	) {
+		return;
+	}
+
+	// If the camera is off and the camera icon is off
+	else if (
+		cameraCurrent === 'false' &&
+		document.getElementById('camera').src.match('./static/images/cam-off.png')
+	) {
+		return;
+	}
+
+	// If the camera is on and the camera icon is off
+	else if (
+		cameraCurrent === 'true' &&
 		document.getElementById('camera').src.match('./static/images/cam-off.png')
 	) {
 		document.getElementById('camera').src = './static/images/cam-on.png';
-	} else {
+	}
+
+	// If the camera is off and the camera icon is on
+	else if (
+		cameraCurrent === 'false' &&
+		document.getElementById('camera').src.match('./static/images/cam-on.png')
+	) {
 		document.getElementById('camera').src = './static/images/cam-off.png';
 	}
 }
-
-// window.localStorage.setItem('showing', showing);
 
 // Event Listeners (Where actions from preload are called)
 
@@ -91,14 +150,6 @@ if (VIDEO_BTN) {
 if (TOGGLE_SIDE_BAR) {
 	// Toggling sidebar arrow listener
 	TOGGLE_SIDE_BAR.addEventListener('mouseover', () => {
-		// if (window.localStorage.getItem('showing') == 'true') {
-		// 	window.localStorage.setItem('showing', false);
-		// } else {
-		// 	window.localStorage.setItem('showing', true);
-		// }
-		// api.toggleSideBar(window.localStorage.getItem('showing'));
-
-		// api.toggleSideBar(window.localStorage.getItem('showing'));
 		isMouseHover = true;
 
 		if (isMouseHover === true) {
@@ -115,14 +166,8 @@ if (TOGGLE_SIDE_BAR) {
 }
 
 if (BACKGROUND) {
-	// BACKGROUND.addEventListener('mouseout', () => {
-	// 	console.log('hovered');
-	// 	window.localStorage.setItem('showing', false);
-	// 	api.toggleSideBar(window.localStorage.getItem('showing'));
-	// });
 	BACKGROUND.addEventListener('mouseleave', () => {
 		isMouseHover = false;
-		console.log('background is left');
 		if (isMouseHover === false) {
 			window.localStorage.setItem('showing', false);
 			api.toggleSideBar(window.localStorage.getItem('showing'));
@@ -131,7 +176,6 @@ if (BACKGROUND) {
 
 	BACKGROUND.addEventListener('mousehover', () => {
 		isMouseHover = true;
-		console.log('background is hovering');
 		if (isMouseHover === true) {
 			window.localStorage.setItem('showing', true);
 			api.toggleSideBar(window.localStorage.getItem('showing'));
@@ -139,10 +183,26 @@ if (BACKGROUND) {
 	});
 }
 
-// Makes it so it constantly checks the current statuses
+let customMessage = 'hello from renderer';
 
-// setInterval(() => {
-// 	api.getActive();
-// }, 1000);
+const sendMessage = () => {
+	api.sendMsg(customMessage);
+	customMessage = '';
+};
+
+// Makes it so it constantly checks the current statuses
+setInterval(() => {
+	api.getActive();
+	setMic();
+	setCamera();
+}, 1000);
+
+setInterval(() => {
+	api.sendActive((data) => {
+		zoomCurrent = data[0];
+		micCurrent = data[1];
+		cameraCurrent = data[2];
+	});
+}, 1000);
 
 setInterval(UpdateStats, 1000);

@@ -1,7 +1,7 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, webContents } = require('electron');
 const path = require('path');
 require('electron-reload')(__dirname);
-const { ipcRenderer, ipcMain, screen } = require('electron');
+const { ipcMain, screen } = require('electron');
 var applescript = require('applescript');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -33,6 +33,8 @@ const createWindow = () => {
 		webPreferences: {
 			devTools: false,
 			preload: path.join(__dirname, 'preload.js'),
+			nodeIntegration: true,
+			// contextIsolation: false,
 		},
 		transparent: true,
 		alwaysOnTop: true,
@@ -57,6 +59,8 @@ const createWindow = () => {
 		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
+			nodeIntegration: true,
+			// contextIsolation: false,
 			devTools: false,
 		},
 		transparent: true,
@@ -101,10 +105,10 @@ const createWindow = () => {
 			function (err, rtn) {
 				if (err) {
 					// Something went wrong!
-					// console.log(err);
+					console.log(err);
 				}
 				if (rtn) {
-					// console.log(rtn);
+					console.log(rtn);
 				}
 			}
 		);
@@ -117,10 +121,10 @@ const createWindow = () => {
 			function (err, rtn) {
 				if (err) {
 					// Something went wrong!
-					// console.log(err);
+					console.log(err);
 				}
 				if (rtn) {
-					// console.log(rtn);
+					console.log(rtn);
 				}
 			}
 		);
@@ -128,7 +132,7 @@ const createWindow = () => {
 
 	// Run status update applescript while the app is running
 	// NOTE: DISCUSS WITH FRONTEND WHAT EVENT LISTENER TO USE
-	app.on('get-active', () => {
+	ipcMain.on('get-active', () => {
 		applescript.execFile(
 			__dirname + '/applescripts/zoomstatus.scpt',
 			// Returns an array of boolean values	<------- MAY BE A STRING VALUE (e.g. 'true' vs. true)
@@ -143,12 +147,15 @@ const createWindow = () => {
 				rtn[1] -- true: muted / false: unmuted
 				rtn[2] -- true: video on / false: video off
 				*/
-					console.log('status:');
-					console.log(rtn);
+					// console.log('status:');
+					// console.log(rtn);
 
 					// This sends a message back to the renderer
-
-					win.webContents.send('send-active', { rtn: rtn });
+					//	// Make sure the ? in ?.webContents is the window you are using the renderer in!
+					// setInterval(() => {
+					// console.log(rtn);
+					mainWindow.webContents.send('send-active', { rtn: rtn });
+					// }, 1000);
 				}
 			}
 		);
@@ -156,6 +163,7 @@ const createWindow = () => {
 
 	// Open the DevTools.
 	arrowWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 
 	// Run main function when the app is ready to start
 	app.on('ready', createWindow);

@@ -20,4 +20,11 @@ contextBridge.exposeInMainWorld('api', {
 	// Get the current statuses
 
 	getActive: () => ipcRenderer.send('get-active'),
+
+	// Send the status back to the renderer
+
+	sendActive: (callback) =>
+		ipcRenderer.on('send-active', (event, args) => {
+			callback(args.rtn);
+		}),
 });
