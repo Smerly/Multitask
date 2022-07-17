@@ -33,7 +33,7 @@ const createWindow = () => {
 		webPreferences: {
 			devTools: false,
 			preload: path.join(__dirname, 'preload.js'),
-			nodeIntegration: true,
+			// nodeIntegration: true,
 			// contextIsolation: false,
 		},
 		transparent: true,
@@ -59,7 +59,7 @@ const createWindow = () => {
 		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
-			nodeIntegration: true,
+			// nodeIntegration: true,
 			// contextIsolation: false,
 			devTools: false,
 		},
@@ -160,14 +160,12 @@ const createWindow = () => {
 			}
 		);
 	});
-
 	// Open the DevTools.
 	arrowWindow.webContents.openDevTools();
-	mainWindow.webContents.openDevTools();
-
-	// Run main function when the app is ready to start
-	app.on('ready', createWindow);
 };
+
+// Run main function when the app is ready to start
+app.on('ready', createWindow);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
