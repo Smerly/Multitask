@@ -17,6 +17,8 @@ let micCurrent = false;
 let cameraCurrent = false;
 let zoomCurrent = false;
 
+let count = 0;
+
 // let micState = false;
 // let cameraState = true;
 // let showing = true;
@@ -30,21 +32,7 @@ async function UpdateStats() {
 }
 
 // Setting the mic icon
-function setMic() {
-	// if (
-	// 	document.getElementById('mute').src.match('./static/images/unmuted.png')
-	// ) {
-	// 	console.log('changed mute (was unmuted)');
-	// 	document.getElementById('mute').src = './static/images/muted.png';
-	// } else {
-	// 	console.log('changed mute (was muted)');
-	// 	document.getElementById('mute').src = './static/images/unmuted.png';
-	// }
-	// if (micCurrent === true) {
-	// 	document.getElementById('mute').src = './static/images/muted.png';
-	// } else if (micCurrent === false) {
-	// 	document.getElementById('mute').src = './static/images/unmuted.png';
-	// }
+function setMic1() {
 	// If the mic is muted and the symbol is already muted
 	if (
 		micCurrent === 'true' &&
@@ -79,14 +67,7 @@ function setMic() {
 }
 
 // Setting the camera icon
-function setCamera() {
-	// if (
-	// 	document.getElementById('camera').src.match('./static/images/cam-off.png')
-	// ) {
-	// 	document.getElementById('camera').src = './static/images/cam-on.png';
-	// } else {
-	// 	document.getElementById('camera').src = './static/images/cam-off.png';
-	// }
+function setCamera1() {
 	// if the camera is on and the camera icon is on
 	if (
 		cameraCurrent === 'true' &&
@@ -120,6 +101,32 @@ function setCamera() {
 	}
 }
 
+function setMic2() {
+	if (
+		document.getElementById('mute').src.match('./static/images/unmuted.png')
+	) {
+		console.log('changed mute (was unmuted)');
+		document.getElementById('mute').src = './static/images/muted.png';
+	} else {
+		console.log('changed mute (was muted)');
+		document.getElementById('mute').src = './static/images/unmuted.png';
+	}
+	if (micCurrent === true) {
+		document.getElementById('mute').src = './static/images/muted.png';
+	} else if (micCurrent === false) {
+		document.getElementById('mute').src = './static/images/unmuted.png';
+	}
+}
+
+function setCamera2() {
+	if (
+		document.getElementById('camera').src.match('./static/images/cam-off.png')
+	) {
+		document.getElementById('camera').src = './static/images/cam-on.png';
+	} else {
+		document.getElementById('camera').src = './static/images/cam-off.png';
+	}
+}
 // Event Listeners (Where actions from preload are called)
 
 // Close button listener
@@ -133,7 +140,8 @@ if (AUDIO_BTN) {
 	AUDIO_BTN.addEventListener('click', () => {
 		console.log('audio button clicked');
 		// Set the mic icon (temporary)
-		setMic();
+		setMic2();
+		// startCheckingMic();
 		api.audio();
 	});
 }
@@ -142,7 +150,8 @@ if (VIDEO_BTN) {
 	VIDEO_BTN.addEventListener('click', () => {
 		console.log('video button clicked');
 		// Set the camera icon (temporary)
-		setCamera();
+		setCamera2();
+		// startCheckingCamera();
 		api.video();
 	});
 }
@@ -190,19 +199,47 @@ const sendMessage = () => {
 	customMessage = '';
 };
 
-// Makes it so it constantly checks the current statuses
+// Set the mic as soon as it launches
+const recurseFor5Sec = setInterval(() => {
+	setMic1();
+	setCamera1();
+	// console.log(count);
+	count += 1;
+	if (count > 50) {
+		clearInterval(recurseFor5Sec);
+		// console.log('killed');
+	}
+}, 100);
+
+// Makes it so the back-end constantly gets their own update on zoom status
 setInterval(() => {
 	api.getActive();
-	setMic();
-	setCamera();
-}, 1000);
+}, 400);
 
+// Updates the sending of the back-end status to the front-end
 setInterval(() => {
 	api.sendActive((data) => {
 		zoomCurrent = data[0];
 		micCurrent = data[1];
 		cameraCurrent = data[2];
 	});
-}, 1000);
+}, 400);
+
+function startCheckingMic() {
+	setTimeout(() => {
+		setMic1();
+	}, 5000);
+}
+
+setInterval(() => {
+	setMic1();
+	setCamera1();
+}, 6000);
+
+function startCheckingCamera() {
+	setTimeout(() => {
+		setCamera1();
+	}, 5000);
+}
 
 setInterval(UpdateStats, 1000);

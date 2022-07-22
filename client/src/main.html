@@ -8,22 +8,28 @@
 	</head>
 	<body>
 		<div class="background" id="background-toggle">
-			<h2 style="color: black">Zoom Controller</h2>
-			<button id="audio" class="util-button">
-				<img id="mute" style="height: 100%" src="./static/images/muted.png" />
-			</button>
-			<button id="video" class="util-button">
-				<img
-					id="camera"
-					style="height: 100%"
-					src="./static/images/cam-on.png"
-				/>
-			</button>
-			<p id="close">&#10006;</p>
+			<h2 id="title">Multitask</h2>
+			<div class="evenly">
+				<button id="audio" class="util-button" style="margin-top: 70px">
+					<img
+						id="mute"
+						style="height: 100%; margin: 0px; padding: 0px"
+						src="./static/images/muted.png"
+					/>
+				</button>
+				<button id="video" class="util-button">
+					<img
+						id="camera"
+						style="height: 100%"
+						src="./static/images/cam-on.png"
+					/>
+				</button>
+				<p id="close">&#10006;</p>
+			</div>
 		</div>
-		<div class="pullbar">
+		<div class="pullbar2">
 			<div>
-				<i class="arrow right"></i>
+				<i class="arrow2 right"></i>
 			</div>
 		</div>
 		<script src="./renderer.js" defer></script>

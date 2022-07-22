@@ -18,8 +18,13 @@ const createWindow = () => {
 
 	// Initial arrow window
 	const arrowWindow = new BrowserWindow({
-		width: 30,
-		height: 70,
+		// width: 30,
+		// height: 70,
+
+		// width: 16,
+		// height: 200,
+		width: 20,
+		height: 300,
 
 		// width: 500,
 		// height: 500,
@@ -33,25 +38,23 @@ const createWindow = () => {
 		webPreferences: {
 			devTools: false,
 			preload: path.join(__dirname, 'preload.js'),
-			// nodeIntegration: true,
-			// contextIsolation: false,
 		},
 		transparent: true,
 		alwaysOnTop: true,
 		x: -width,
-		y: Math.floor(height / 2),
+		y: Math.floor(height / 2.5),
 	});
 	// Main window
 	const mainWindow = new BrowserWindow({
 		width: 150,
-		height: 500,
+		height: 510,
 		minWidth: 150,
 		maxWidth: 150,
 
 		// width: 500,
-		// height: 500,
-		// maxHeight: 500,
-		// minHeight: 500,
+		// height: 510,
+		// maxHeight: 510,
+		// minHeight: 510,
 		// minWidth: 500,
 		// maxWidth: 500,
 		border: '1px black solid',
@@ -162,6 +165,7 @@ const createWindow = () => {
 	});
 	// Open the DevTools.
 	arrowWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
 };
 
 // Run main function when the app is ready to start
