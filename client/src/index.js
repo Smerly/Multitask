@@ -1,7 +1,7 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, webContents } = require('electron');
 const path = require('path');
 require('electron-reload')(__dirname);
-const { ipcRenderer, ipcMain, screen } = require('electron');
+const { ipcMain, screen } = require('electron');
 var applescript = require('applescript');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -18,8 +18,13 @@ const createWindow = () => {
 
 	// Initial arrow window
 	const arrowWindow = new BrowserWindow({
-		width: 30,
-		height: 70,
+		// width: 30,
+		// height: 70,
+
+		// width: 16,
+		// height: 200,
+		width: 20,
+		height: 300,
 
 		// width: 500,
 		// height: 500,
@@ -37,19 +42,19 @@ const createWindow = () => {
 		transparent: true,
 		alwaysOnTop: true,
 		x: -width,
-		y: Math.floor(height / 2),
+		y: Math.floor(height / 2.5),
 	});
 	// Main window
 	const mainWindow = new BrowserWindow({
 		width: 150,
-		height: 500,
+		height: 510,
 		minWidth: 150,
 		maxWidth: 150,
 
 		// width: 500,
-		// height: 500,
-		// maxHeight: 500,
-		// minHeight: 500,
+		// height: 510,
+		// maxHeight: 510,
+		// minHeight: 510,
 		// minWidth: 500,
 		// maxWidth: 500,
 		border: '1px black solid',
@@ -57,6 +62,8 @@ const createWindow = () => {
 		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
+			// nodeIntegration: true,
+			// contextIsolation: false,
 			devTools: false,
 		},
 		transparent: true,
@@ -79,16 +86,16 @@ const createWindow = () => {
 
 	// Toggling side bar method
 	ipcMain.on('toggle-side-bar', (event, arg) => {
-		console.log(`${typeof arg}: ${arg}`);
+		// console.log(`${typeof arg}: ${arg}`);
 		// If the sidebar was previously hidden, then show it
 		if (arg === 'true') {
-			console.log('shown');
+			// console.log('shown');
 			mainWindow.show();
 			arrowWindow.hide();
 		}
 		// If the sidebar was previously shown, then hide it
 		else if (arg === 'false') {
-			console.log('hidden');
+			// console.log('hidden');
 			mainWindow.hide();
 			arrowWindow.show();
 		}
@@ -125,36 +132,44 @@ const createWindow = () => {
 			}
 		);
 	});
-	
-	// Open the DevTools.
-	arrowWindow.webContents.openDevTools();
-};
 
-// Run main function when the app is ready to start
-app.on('ready', createWindow);
-
-// Run status update applescript while the app is running
-// NOTE: DISCUSS WITH FRONTEND WHAT EVENT LISTENER TO USE
-app.on('did-become-active', () => {
-	applescript.execFile(
-		__dirname + '/applescripts/zoomstatus.scpt',
-		// Returns an array of boolean values	<------- MAY BE A STRING VALUE (e.g. 'true' vs. true)
-		function (err, rtn) {
-			if (err) {
-				// Something went wrong!
-				console.log(err);
-			}
-			if (rtn) {
-				/*
+	// Run status update applescript while the app is running
+	// NOTE: DISCUSS WITH FRONTEND WHAT EVENT LISTENER TO USE
+	ipcMain.on('get-active', () => {
+		applescript.execFile(
+			__dirname + '/applescripts/zoomstatus.scpt',
+			// Returns an array of boolean values	<------- MAY BE A STRING VALUE (e.g. 'true' vs. true)
+			function (err, rtn) {
+				if (err) {
+					// Something went wrong!
+					console.log(err);
+				}
+				if (rtn) {
+					/*
 				rtn[0] -- true: in a zoom meeting / false: not in a zoom meeting	<------- MAY BE REFERENCED FOR FUTURE FEATURE
 				rtn[1] -- true: muted / false: unmuted
 				rtn[2] -- true: video on / false: video off
 				*/
-				console.log(rtn);
+					// console.log('status:');
+					// console.log(rtn);
+
+					// This sends a message back to the renderer
+					//	// Make sure the ? in ?.webContents is the window you are using the renderer in!
+					// setInterval(() => {
+					// console.log(rtn);
+					mainWindow.webContents.send('send-active', { rtn: rtn });
+					// }, 1000);
+				}
 			}
-		}
-	);
-})
+		);
+	});
+	// Open the DevTools.
+	arrowWindow.webContents.openDevTools();
+	mainWindow.webContents.openDevTools();
+};
+
+// Run main function when the app is ready to start
+app.on('ready', createWindow);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

@@ -16,4 +16,15 @@ contextBridge.exposeInMainWorld('api', {
 	// Toggle the side bar
 
 	toggleSideBar: (showing) => ipcRenderer.send('toggle-side-bar', showing),
+
+	// Get the current statuses
+
+	getActive: () => ipcRenderer.send('get-active'),
+
+	// Send the status back to the renderer
+
+	sendActive: (callback) =>
+		ipcRenderer.on('send-active', (event, args) => {
+			callback(args.rtn);
+		}),
 });
