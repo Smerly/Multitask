@@ -1,8 +1,8 @@
 {
-  "name": "overlay-electron",
-  "productName": "overlay-electron",
+  "name": "multitask",
+  "productName": "Multitask",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "A product to help virtual meeting participants quickly carry out virtual meeting application tasks (i.e. mute, camera button), no matter what application they are using during the meeting.",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -34,6 +34,12 @@
           ]
         },
         {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "format": "ULFO"
+          }
+        },
+        {
           "name": "@electron-forge/maker-deb",
           "config": {}
         },
@@ -45,9 +51,11 @@
     }
   },
   "dependencies": {
+    "appdmg": "^0.6.4",
     "applescript": "^1.0.0",
     "electron-reload": "^2.0.0-alpha.1",
     "electron-squirrel-startup": "^1.0.0",
+    "fs-xattr": "^0.4.0",
     "node-osascript": "^2.1.0",
     "run-applescript": "^6.0.0",
     "systeminformation": "^5.11.21"
@@ -55,6 +63,7 @@
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.64",
     "@electron-forge/maker-deb": "^6.0.0-beta.64",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.64",
     "@electron-forge/maker-rpm": "^6.0.0-beta.64",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
     "@electron-forge/maker-zip": "^6.0.0-beta.64",
