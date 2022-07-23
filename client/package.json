@@ -36,6 +36,7 @@
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
+            "icon": "./assets/Multitask_Icon.icns",
             "format": "ULFO"
           }
         },
