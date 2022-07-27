@@ -25,6 +25,6 @@ contextBridge.exposeInMainWorld('api', {
 
 	sendActive: (callback) =>
 		ipcRenderer.on('send-active', (event, args) => {
-			callback(args.rtn);
+			callback(args);
 		}),
 });

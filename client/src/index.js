@@ -18,14 +18,11 @@ const createWindow = () => {
 
 	// Initial arrow window
 	const arrowWindow = new BrowserWindow({
-		// width: 30,
-		// height: 70,
-
-		// width: 16,
-		// height: 200,
+		// Production sizing
 		width: 20,
 		height: 300,
 
+		// Dev sizing
 		// width: 500,
 		// height: 500,
 		// maxHeight: 500,
@@ -46,11 +43,13 @@ const createWindow = () => {
 	});
 	// Main window
 	const mainWindow = new BrowserWindow({
+		// Production sizing
 		width: 150,
 		height: 510,
 		minWidth: 150,
 		maxWidth: 150,
 
+		// Dev sizing
 		// width: 500,
 		// height: 510,
 		// maxHeight: 510,
@@ -78,6 +77,7 @@ const createWindow = () => {
 	mainWindow.loadFile(path.join(__dirname, 'main.html'));
 	// Make the main window initially not show up
 	mainWindow.hide();
+	// mainWindow.show();
 
 	// All ipcMains
 
@@ -101,8 +101,16 @@ const createWindow = () => {
 		}
 	});
 
+	let isRunningAudio = false;
+	let isRunningCamera = false;
+
 	// Muting and unmuting methods
 	ipcMain.on('audio', () => {
+		if (isRunningAudio) {
+			return;
+		}
+
+		isRunningAudio = true;
 		applescript.execFile(
 			__dirname + '/applescripts/zoomaudio.scpt',
 			function (err, rtn) {
@@ -113,12 +121,16 @@ const createWindow = () => {
 				if (rtn) {
 					console.log(rtn);
 				}
+				isRunningAudio = false;
 			}
 		);
 	});
-
 	// Turning on video and turning off vide methods
 	ipcMain.on('video', () => {
+		if (isRunningCamera) {
+			return;
+		}
+		isRunningCamera = true;
 		applescript.execFile(
 			__dirname + '/applescripts/zoomvideo.scpt',
 			function (err, rtn) {
@@ -129,16 +141,14 @@ const createWindow = () => {
 				if (rtn) {
 					console.log(rtn);
 				}
+				isRunningCamera = false;
 			}
 		);
 	});
 
-	// Run status update applescript while the app is running
-	// NOTE: DISCUSS WITH FRONTEND WHAT EVENT LISTENER TO USE
 	ipcMain.on('get-active', () => {
 		applescript.execFile(
 			__dirname + '/applescripts/zoomstatus.scpt',
-			// Returns an array of boolean values	<------- MAY BE A STRING VALUE (e.g. 'true' vs. true)
 			function (err, rtn) {
 				if (err) {
 					// Something went wrong!
@@ -150,15 +160,10 @@ const createWindow = () => {
 				rtn[1] -- true: muted / false: unmuted
 				rtn[2] -- true: video on / false: video off
 				*/
-					// console.log('status:');
-					// console.log(rtn);
-
-					// This sends a message back to the renderer
-					//	// Make sure the ? in ?.webContents is the window you are using the renderer in!
-					// setInterval(() => {
-					// console.log(rtn);
-					mainWindow.webContents.send('send-active', { rtn: rtn });
-					// }, 1000);
+					mainWindow.webContents.send('send-active', {
+						rtn: rtn,
+						isVisible: mainWindow.isVisible(),
+					});
 				}
 			}
 		);

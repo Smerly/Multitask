@@ -2,6 +2,7 @@
 
 body {
 	/* -webkit-app-region: drag; */
+
 	background-color: transparent;
 	display: flex;
 	cursor: pointer;
@@ -10,6 +11,13 @@ body {
 	color: #edff14;
 	user-select: none;
 	font-family: 'Montserrat', sans-serif;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+::-webkit-scrollbar {
+	display: none;
+	width: 0px;
 }
 
 #close {
@@ -90,7 +98,8 @@ body {
 .pullbar1 {
 	width: 20px;
 	align-self: center;
-	background-color: rgb(229, 229, 229);
+	/* background-color: rgb(229, 229, 229); */
+	background-color: white;
 	height: 50px;
 	display: flex;
 	align-items: center;

@@ -16,8 +16,14 @@ const BACKGROUND = document.getElementById('background-toggle');
 let micCurrent = false;
 let cameraCurrent = false;
 let zoomCurrent = false;
+let hoverStopOrContinue = false;
+let isMainVisible = false;
+let timeOutMic = null;
+let timeOutCamera = null;
 
 let count = 0;
+let countResponse = 0;
+let count2 = 0;
 
 // let micState = false;
 // let cameraState = true;
@@ -141,23 +147,22 @@ if (AUDIO_BTN) {
 		console.log('audio button clicked');
 		// Set the mic icon (temporary)
 		setMic2();
-		// startCheckingMic();
+		startCheckingMic();
 		api.audio();
 	});
 }
+// Video button listener
 if (VIDEO_BTN) {
-	// Video button listener
 	VIDEO_BTN.addEventListener('click', () => {
 		console.log('video button clicked');
 		// Set the camera icon (temporary)
 		setCamera2();
-		// startCheckingCamera();
+		startCheckingCamera();
 		api.video();
 	});
 }
-
+// Toggling sidebar arrow listener
 if (TOGGLE_SIDE_BAR) {
-	// Toggling sidebar arrow listener
 	TOGGLE_SIDE_BAR.addEventListener('mouseover', () => {
 		isMouseHover = true;
 
@@ -174,39 +179,64 @@ if (TOGGLE_SIDE_BAR) {
 	});
 }
 
+// If hovering over the background
 if (BACKGROUND) {
+	BACKGROUND.addEventListener('mouseover', () => {
+		checked = true;
+	});
 	BACKGROUND.addEventListener('mouseleave', () => {
-		isMouseHover = false;
-		if (isMouseHover === false) {
-			window.localStorage.setItem('showing', false);
-			api.toggleSideBar(window.localStorage.getItem('showing'));
-		}
+		console.log('hi');
+		window.localStorage.setItem('showing', false);
+		countResponse = 0;
+
+		api.toggleSideBar(window.localStorage.getItem('showing'));
+		// }
 	});
 
-	BACKGROUND.addEventListener('mousehover', () => {
-		isMouseHover = true;
-		if (isMouseHover === true) {
-			window.localStorage.setItem('showing', true);
-			api.toggleSideBar(window.localStorage.getItem('showing'));
-		}
-	});
+	// BACKGROUND.addEventListener('mousehover', () => {
+	// 	window.localStorage.setItem('showing', true);
+
+	// 	// hoverStopOrContinue = true;
+
+	// 	api.toggleSideBar(window.localStorage.getItem('showing'));
+	// 	// }
+	// });
 }
+setInterval(() => {
+	if (isMainVisible == true && countResponse == 0) {
+		const recurseFor5Sec = setInterval(() => {
+			setMic1();
+			setCamera1();
+			console.log(countResponse);
+			countResponse += 1;
+			if (countResponse > 15) {
+				clearInterval(recurseFor5Sec);
+			}
+		}, 100);
+	}
+});
 
-let customMessage = 'hello from renderer';
-
-const sendMessage = () => {
-	api.sendMsg(customMessage);
-	customMessage = '';
-};
+// const recurseFor5Sec = setInterval(() => {
+// 	setMic1();
+// 	setCamera1();
+// 	console.log(countResponse);
+// 	countResponse += 1;
+// 	if (countResponse > 50) {
+// 		clearInterval(recurseFor5Sec);
+// 		hoverStopOrContinue = false;
+// 		countResponse = 0;
+// 		console.log(countResponse);
+// 	}
+// }, 100);
 
 // Set the mic as soon as it launches
-const recurseFor5Sec = setInterval(() => {
+const beginAppSet = setInterval(() => {
 	setMic1();
 	setCamera1();
 	// console.log(count);
 	count += 1;
 	if (count > 50) {
-		clearInterval(recurseFor5Sec);
+		clearInterval(beginAppSet);
 		// console.log('killed');
 	}
 }, 100);
@@ -219,27 +249,26 @@ setInterval(() => {
 // Updates the sending of the back-end status to the front-end
 setInterval(() => {
 	api.sendActive((data) => {
-		zoomCurrent = data[0];
-		micCurrent = data[1];
-		cameraCurrent = data[2];
+		zoomCurrent = data.rtn[0];
+		micCurrent = data.rtn[1];
+		cameraCurrent = data.rtn[2];
+		isMainVisible = data.isVisible;
 	});
 }, 400);
 
 function startCheckingMic() {
-	setTimeout(() => {
+	clearTimeout(timeOutMic);
+	timeOutMic = setTimeout(() => {
+		console.log('checked mic 2 sec after click');
 		setMic1();
-	}, 5000);
+	}, 1900);
 }
 
-setInterval(() => {
-	setMic1();
-	setCamera1();
-}, 6000);
-
 function startCheckingCamera() {
-	setTimeout(() => {
+	clearTimeout(timeOutCamera);
+	timeOutCamera = setTimeout(() => {
 		setCamera1();
-	}, 5000);
+	}, 2000);
 }
 
 setInterval(UpdateStats, 1000);
