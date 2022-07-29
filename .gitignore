@@ -1,2 +1,6 @@
+.DS_Store
+out/
+Multitask-darwin-x64/
+
 # Dependency directories
 node_modules/
