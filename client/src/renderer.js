@@ -42,7 +42,9 @@ function setMic1() {
 	// If the mic is muted and the symbol is already muted
 	if (
 		micCurrent === 'true' &&
-		document.getElementById('mute').src.match('./static/images/muted.png')
+		document
+			.getElementById('mute')
+			.src.match('./static/images/Component-11-7.png')
 	) {
 		return;
 	}
@@ -50,7 +52,9 @@ function setMic1() {
 	// Else if the mic is unmuted and the symbol is already unmuted
 	else if (
 		micCurrent === 'false' &&
-		document.getElementById('mute').src.match('./static/images/unmuted.png')
+		document
+			.getElementById('mute')
+			.src.match('./static/images/Component-11-6.png')
 	) {
 		return;
 	}
@@ -58,17 +62,21 @@ function setMic1() {
 	// Else if the mic is muted and the symbol is unmuted
 	else if (
 		micCurrent === 'true' &&
-		document.getElementById('mute').src.match('./static/images/unmuted.png')
+		document
+			.getElementById('mute')
+			.src.match('./static/images/Component-11-6.png')
 	) {
-		document.getElementById('mute').src = './static/images/muted.png';
+		document.getElementById('mute').src = './static/images/Component-11-7.png';
 	}
 
 	// Else if the mic is unmuted and the symbol is muted
 	else if (
 		micCurrent === 'false' &&
-		document.getElementById('mute').src.match('./static/images/muted.png')
+		document
+			.getElementById('mute')
+			.src.match('./static/images/Component-11-7.png')
 	) {
-		document.getElementById('mute').src = './static/images/unmuted.png';
+		document.getElementById('mute').src = './static/images/Component-11-6.png';
 	}
 }
 
@@ -77,7 +85,9 @@ function setCamera1() {
 	// if the camera is on and the camera icon is on
 	if (
 		cameraCurrent === 'true' &&
-		document.getElementById('camera').src.match('./static/images/cam-on.png')
+		document
+			.getElementById('camera')
+			.src.match('./static/images/Component-11-4.png')
 	) {
 		return;
 	}
@@ -85,7 +95,9 @@ function setCamera1() {
 	// If the camera is off and the camera icon is off
 	else if (
 		cameraCurrent === 'false' &&
-		document.getElementById('camera').src.match('./static/images/cam-off.png')
+		document
+			.getElementById('camera')
+			.src.match('./static/images/Component-11-5.png')
 	) {
 		return;
 	}
@@ -93,44 +105,56 @@ function setCamera1() {
 	// If the camera is on and the camera icon is off
 	else if (
 		cameraCurrent === 'true' &&
-		document.getElementById('camera').src.match('./static/images/cam-off.png')
+		document
+			.getElementById('camera')
+			.src.match('./static/images/Component-11-5.png')
 	) {
-		document.getElementById('camera').src = './static/images/cam-on.png';
+		document.getElementById('camera').src =
+			'./static/images/Component-11-4.png';
 	}
 
 	// If the camera is off and the camera icon is on
 	else if (
 		cameraCurrent === 'false' &&
-		document.getElementById('camera').src.match('./static/images/cam-on.png')
+		document
+			.getElementById('camera')
+			.src.match('./static/images/Component-11-4.png')
 	) {
-		document.getElementById('camera').src = './static/images/cam-off.png';
+		document.getElementById('camera').src =
+			'./static/images/Component-11-5.png';
 	}
 }
 
 function setMic2() {
 	if (
-		document.getElementById('mute').src.match('./static/images/unmuted.png')
+		document
+			.getElementById('mute')
+			.src.match('./static/images/Component-11-6.png')
 	) {
 		console.log('changed mute (was unmuted)');
-		document.getElementById('mute').src = './static/images/muted.png';
+		document.getElementById('mute').src = './static/images/Component-11-7.png';
 	} else {
 		console.log('changed mute (was muted)');
-		document.getElementById('mute').src = './static/images/unmuted.png';
+		document.getElementById('mute').src = './static/images/Component-11-6.png';
 	}
 	if (micCurrent === true) {
-		document.getElementById('mute').src = './static/images/muted.png';
+		document.getElementById('mute').src = './static/images/Component-11-7.png';
 	} else if (micCurrent === false) {
-		document.getElementById('mute').src = './static/images/unmuted.png';
+		document.getElementById('mute').src = './static/images/Component-11-6.png';
 	}
 }
 
 function setCamera2() {
 	if (
-		document.getElementById('camera').src.match('./static/images/cam-off.png')
+		document
+			.getElementById('camera')
+			.src.match('./static/images/Component-11-5.png')
 	) {
-		document.getElementById('camera').src = './static/images/cam-on.png';
+		document.getElementById('camera').src =
+			'./static/images/Component-11-4.png';
 	} else {
-		document.getElementById('camera').src = './static/images/cam-off.png';
+		document.getElementById('camera').src =
+			'./static/images/Component-11-5.png';
 	}
 }
 // Event Listeners (Where actions from preload are called)

@@ -29,6 +29,7 @@ const createWindow = () => {
 		// minHeight: 500,
 		// minWidth: 500,
 		// maxWidth: 500,
+
 		border: '1px black solid',
 		frame: false,
 		autoHideMenuBar: true,
@@ -56,6 +57,7 @@ const createWindow = () => {
 		// minHeight: 510,
 		// minWidth: 500,
 		// maxWidth: 500,
+
 		border: '1px black solid',
 		frame: false,
 		autoHideMenuBar: true,
