@@ -52,6 +52,7 @@
     }
   },
   "dependencies": {
+    "@electron/osx-sign": "^1.0.1",
     "appdmg": "^0.6.4",
     "applescript": "^1.0.0",
     "electron-reload": "^2.0.0-alpha.1",
