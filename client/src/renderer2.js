@@ -196,9 +196,9 @@ if (TOGGLE_SIDE_BAR) {
 			} else {
 				window.localStorage.setItem('showing', true);
 			}
-			api.toggleSideBar(window.localStorage.getItem('showing'));
+			api.toggleSideBar2(window.localStorage.getItem('showing'));
 
-			api.toggleSideBar(window.localStorage.getItem('showing'));
+			api.toggleSideBar2(window.localStorage.getItem('showing'));
 		}
 	});
 }
@@ -213,7 +213,7 @@ if (BACKGROUND) {
 		window.localStorage.setItem('showing', false);
 		countResponse = 0;
 
-		api.toggleSideBar(window.localStorage.getItem('showing'));
+		api.toggleSideBar2(window.localStorage.getItem('showing'));
 		// }
 	});
 

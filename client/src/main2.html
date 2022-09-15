@@ -6,39 +6,47 @@
 		<link rel="stylesheet" href="index.css" />
 		<title>Document</title>
 	</head>
-	<body>
-		<div class="background" id="background-toggle">
-			<div class="evenly">
+	<body style="display: flex; flex-direction: column; justify-content: center">
+		<div class="background2" id="background-toggle">
+			<!-- <h2 id="title">Multitask</h2> -->
+
+			<div class="evenly2">
 				<img
 					src="../assets/MultiTask_Logo.png"
-					style="width: 40%; margin: 30px"
+					style="width: 15%; margin: 30px"
 				/>
-				<button id="audio" class="util-button" style="margin-top: 20px">
+				<button id="audio" class="util-button" style="margin-top: 45px">
+					<!-- <img
+						id="mute"
+						style="height: 100%; margin: 0px; padding: 0px"
+						src="./static/images/muted.png"
+					/> -->
 					<img
 						id="mute"
 						style="height: 80%; margin: 0px; padding: 0px"
 						src="./static/images/Component-11-6.png"
 					/>
 				</button>
-				<button id="video" class="util-button">
+				<button id="video" class="util-button" style="margin-top: 45px">
 					<img
 						id="camera"
 						style="height: 80%"
 						src="./static/images/Component-11-4.png"
 					/>
 				</button>
+				<!-- <p id="close">&#10006;</p> -->
 				<img
 					id="close"
 					src="./static/images/Component-11.png"
-					style="width: 50%; margin-top: 0px"
+					style="width: 15%; margin-top: 0px"
 				/>
 			</div>
 		</div>
 		<div class="pullbar2">
 			<div>
-				<i class="arrow2 right"></i>
+				<i class="arrow2 down"></i>
 			</div>
 		</div>
-		<script src="./renderer.js" defer></script>
+		<script src="./renderer2.js" defer></script>
 	</body>
 </html>

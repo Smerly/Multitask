@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld('api', {
 	// Toggle the side bar
 
 	toggleSideBar: (showing) => ipcRenderer.send('toggle-side-bar', showing),
+	toggleSideBar2: (showing) => ipcRenderer.send('toggle-side-bar2', showing),
 
 	// Get the current statuses
 

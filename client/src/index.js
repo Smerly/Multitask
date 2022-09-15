@@ -39,8 +39,100 @@ const createWindow = () => {
 		},
 		transparent: true,
 		alwaysOnTop: true,
+		// x: -width,
+		// y: Math.floor(height / 2.5),
 		x: -width,
 		y: Math.floor(height / 2.5),
+	});
+
+	const arrowWindow2 = new BrowserWindow({
+		// Production sizing
+		width: 300,
+		height: 20,
+		// width: 300,
+		// height: 20,
+
+		// Dev sizing
+		// width: 500,
+		// height: 500,
+		// maxHeight: 500,
+		// minHeight: 500,
+		// minWidth: 500,
+		// maxWidth: 500,
+
+		border: '1px black solid',
+		frame: false,
+		autoHideMenuBar: true,
+		webPreferences: {
+			// devTools: false,
+			preload: path.join(__dirname, 'preload.js'),
+		},
+		transparent: true,
+		alwaysOnTop: true,
+		// x: -width,
+		// y: Math.floor(height / 2.5),
+		x: Math.floor(height / 2.5),
+		y: -width,
+	});
+
+	const arrowWindow3 = new BrowserWindow({
+		// Production sizing
+		// width: 20,
+		// height: 300,
+		// width: 300,
+		// height: 20,
+
+		// Dev sizing
+		// width: 500,
+		// height: 500,
+		// maxHeight: 500,
+		// minHeight: 500,
+		// minWidth: 500,
+		// maxWidth: 500,
+
+		border: '1px black solid',
+		frame: false,
+		autoHideMenuBar: true,
+		webPreferences: {
+			// devTools: false,
+			preload: path.join(__dirname, 'preload.js'),
+		},
+		transparent: true,
+		alwaysOnTop: true,
+		// x: -width,
+		// y: Math.floor(height / 2.5),
+		x: Math.floor(height / 2.5),
+		y: -width,
+	});
+
+	const arrowWindow4 = new BrowserWindow({
+		// Production sizing
+		// width: 20,
+		// height: 300,
+		// width: 300,
+		// height: 20,
+
+		// Dev sizing
+		// width: 500,
+		// height: 500,
+		// maxHeight: 500,
+		// minHeight: 500,
+		// minWidth: 500,
+		// maxWidth: 500,
+
+		border: '1px black solid',
+		frame: false,
+		autoHideMenuBar: true,
+		webPreferences: {
+			// devTools: false,
+			preload: path.join(__dirname, 'preload.js'),
+		},
+		transparent: true,
+		alwaysOnTop: true,
+		// x: -width,
+		// y: Math.floor(height / 2.5),
+		x: Math.floor(height / 2.5),
+		y: -width,
 	});
 	// Main window
 	const mainWindow = new BrowserWindow({
@@ -73,12 +165,52 @@ const createWindow = () => {
 		x: -width,
 		y: Math.floor(height / 4),
 	});
+	const mainWindow2 = new BrowserWindow({
+		// Production sizing
+		// width: 520,
+		// height: 150,
+		// minWidth: 150,
+		// maxWidth: 150,
+
+		// Dev sizing
+		width: 1000,
+		height: 510,
+		maxHeight: 510,
+		minHeight: 510,
+		minWidth: 500,
+		maxWidth: 500,
+
+		border: '1px black solid',
+		frame: false,
+		autoHideMenuBar: true,
+		webPreferences: {
+			preload: path.join(__dirname, 'preload.js'),
+			// nodeIntegration: true,
+			// contextIsolation: false,
+			// devTools: false,
+		},
+		transparent: true,
+		alwaysOnTop: true,
+		// show: false,
+		x: Math.floor(height / 4),
+		y: -width,
+	});
 
 	// Initial loading of HTML files
 	arrowWindow.loadFile(path.join(__dirname, 'index.html'));
 	mainWindow.loadFile(path.join(__dirname, 'main.html'));
+	arrowWindow2.loadFile(path.join(__dirname, 'pullbar2.html'));
+	mainWindow2.loadFile(path.join(__dirname, 'main2.html'));
 	// Make the main window initially not show up
 	mainWindow.hide();
+	mainWindow2.hide();
+	// arrowWindow2.hide();
+	// dev things:
+	// arrowWindow.hide();
+	arrowWindow.show();
+	arrowWindow2.hide();
+	arrowWindow3.hide();
+	arrowWindow4.hide();
 	// mainWindow.show();
 
 	// All ipcMains
@@ -100,6 +232,22 @@ const createWindow = () => {
 			// console.log('hidden');
 			mainWindow.hide();
 			arrowWindow.show();
+		}
+	});
+
+	ipcMain.on('toggle-side-bar2', (event, arg) => {
+		// console.log(`${typeof arg}: ${arg}`);
+		// If the sidebar was previously hidden, then show it
+		if (arg === 'true') {
+			// console.log('shown');
+			mainWindow2.show();
+			arrowWindow2.hide();
+		}
+		// If the sidebar was previously shown, then hide it
+		else if (arg === 'false') {
+			// console.log('hidden');
+			mainWindow2.hide();
+			arrowWindow2.show();
 		}
 	});
 
@@ -172,7 +320,7 @@ const createWindow = () => {
 	});
 	// Open the DevTools.
 	arrowWindow.webContents.openDevTools();
-	mainWindow.webContents.openDevTools();
+	mainWindow2.webContents.openDevTools();
 };
 
 // Run main function when the app is ready to start
