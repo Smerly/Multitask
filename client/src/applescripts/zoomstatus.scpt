@@ -1,6 +1,7 @@
 set meetingStatus to false
 set muteStatus to false
 set videoStatus to false
+set shareStatus to false
 tell application "System Events"
 	if exists (window 1 of process "zoom.us") then
 		set meetingStatus to false
@@ -16,6 +17,11 @@ tell application "System Events"
 					set videoStatus to false
 				else
 					set videoStatus to true
+				end if
+				if exists (menu item "Start share" of menu 1 of menu bar item "Meeting" of menu bar 1) then
+					set shareStatus to false
+				else
+					set shareStatus to true
 				end if
 			end if
 		end tell
