@@ -28,4 +28,4 @@ tell application "System Events"
 	end if
 end tell
 
-return {meetingStatus, muteStatus, videoStatus}
+return {meetingStatus, muteStatus, videoStatus, shareStatus}

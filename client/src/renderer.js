@@ -6,6 +6,8 @@ const CLOSE_BTN = document.getElementById('close');
 const AUDIO_BTN = document.getElementById('audio');
 // Video button
 const VIDEO_BTN = document.getElementById('video');
+// Share Screen button
+const SHARE_SCREEN_BTN = document.getElementById('sharescreen');
 // Toggle side bar arrow
 const TOGGLE_SIDE_BAR = document.getElementById('toggle-side-bar');
 // Keep side bar toggled with background
@@ -15,6 +17,7 @@ const BACKGROUND = document.getElementById('background-toggle');
 
 let micCurrent = false;
 let cameraCurrent = false;
+let shareCurrent = false;
 let zoomCurrent = false;
 let hoverStopOrContinue = false;
 let isMainVisible = false;
@@ -24,11 +27,6 @@ let timeOutCamera = null;
 let count = 0;
 let countResponse = 0;
 let count2 = 0;
-
-// let micState = false;
-// let cameraState = true;
-// let showing = true;
-// let isMouseHover = false;
 
 // Helper functions
 
@@ -125,6 +123,16 @@ function setCamera1() {
 	}
 }
 
+function setShareScreen1() {
+	if (shareCurrent === 'false') {
+		document.getElementById('sharescreenicon').src =
+			'./static/images/notshared.png';
+	} else if (shareCurrent === 'true') {
+		document.getElementById('sharescreenicon').src =
+			'./static/images/shared.png';
+	}
+}
+
 function setMic2() {
 	if (
 		document
@@ -185,6 +193,13 @@ if (VIDEO_BTN) {
 		api.video();
 	});
 }
+
+if (SHARE_SCREEN_BTN) {
+	SHARE_SCREEN_BTN.addEventListener('click', () => {
+		console.log('share screen button clicked');
+		api.sharescreen();
+	});
+}
 // Toggling sidebar arrow listener
 if (TOGGLE_SIDE_BAR) {
 	TOGGLE_SIDE_BAR.addEventListener('mouseover', () => {
@@ -231,7 +246,7 @@ setInterval(() => {
 		const recurseFor5Sec = setInterval(() => {
 			setMic1();
 			setCamera1();
-			console.log(countResponse);
+
 			countResponse += 1;
 			if (countResponse > 15) {
 				clearInterval(recurseFor5Sec);
@@ -239,19 +254,6 @@ setInterval(() => {
 		}, 100);
 	}
 });
-
-// const recurseFor5Sec = setInterval(() => {
-// 	setMic1();
-// 	setCamera1();
-// 	console.log(countResponse);
-// 	countResponse += 1;
-// 	if (countResponse > 50) {
-// 		clearInterval(recurseFor5Sec);
-// 		hoverStopOrContinue = false;
-// 		countResponse = 0;
-// 		console.log(countResponse);
-// 	}
-// }, 100);
 
 // Set the mic as soon as it launches
 const beginAppSet = setInterval(() => {
@@ -276,9 +278,13 @@ setInterval(() => {
 		zoomCurrent = data.rtn[0];
 		micCurrent = data.rtn[1];
 		cameraCurrent = data.rtn[2];
+		shareCurrent = data.rtn[3];
 		isMainVisible = data.isVisible;
+		// console.log(data.rtn[3]);
 	});
 }, 400);
+
+// Start Checking
 
 function startCheckingMic() {
 	clearTimeout(timeOutMic);
@@ -287,6 +293,10 @@ function startCheckingMic() {
 		setMic1();
 	}, 1900);
 }
+
+setInterval(() => {
+	setShareScreen1();
+}, 700);
 
 function startCheckingCamera() {
 	clearTimeout(timeOutCamera);

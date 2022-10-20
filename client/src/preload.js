@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('api', {
 
 	audio: () => ipcRenderer.send('audio'),
 	video: () => ipcRenderer.send('video'),
+	sharescreen: () => ipcRenderer.send('sharescreen'),
 
 	// Toggle the side bar
 

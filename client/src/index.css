@@ -49,14 +49,17 @@ body {
 	/* opacity: 90%; */
 	border-radius: 10px;
 }
+.img-buttons {
+	height: 70%;
+}
 
 .util-button {
 	margin-top: 8px;
-	margin-bottom: 45px;
+	margin-bottom: 20px;
 	margin-right: 20px;
 	margin-left: 20px;
-	width: 84px;
-	height: 84px;
+	width: 70px;
+	height: 70px;
 	border-radius: 10px;
 	/* border: 1px black solid; */
 	border: none;

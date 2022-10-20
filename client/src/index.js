@@ -19,10 +19,12 @@ const createWindow = () => {
 	// Initial arrow window
 	const arrowWindow = new BrowserWindow({
 		// Production sizing
+
 		width: 20,
 		height: 300,
 
 		// Dev sizing
+
 		// width: 500,
 		// height: 500,
 		// maxHeight: 500,
@@ -45,12 +47,14 @@ const createWindow = () => {
 	// Main window
 	const mainWindow = new BrowserWindow({
 		// Production sizing
+
 		width: 150,
 		height: 510,
 		minWidth: 150,
 		maxWidth: 150,
 
 		// Dev sizing
+
 		// width: 500,
 		// height: 510,
 		// maxHeight: 510,
@@ -63,8 +67,6 @@ const createWindow = () => {
 		autoHideMenuBar: true,
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
-			// nodeIntegration: true,
-			// contextIsolation: false,
 			devTools: false,
 		},
 		transparent: true,
@@ -80,6 +82,9 @@ const createWindow = () => {
 	// Make the main window initially not show up
 	mainWindow.hide();
 	// mainWindow.show();
+
+	arrowWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+	mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
 
 	// All ipcMains
 
@@ -105,6 +110,7 @@ const createWindow = () => {
 
 	let isRunningAudio = false;
 	let isRunningCamera = false;
+	let isRunningShareScreen = false;
 
 	// Muting and unmuting methods
 	ipcMain.on('audio', () => {
@@ -127,7 +133,7 @@ const createWindow = () => {
 			}
 		);
 	});
-	// Turning on video and turning off vide methods
+	// Turning on video and turning off video methods
 	ipcMain.on('video', () => {
 		if (isRunningCamera) {
 			return;
@@ -144,6 +150,27 @@ const createWindow = () => {
 					console.log(rtn);
 				}
 				isRunningCamera = false;
+			}
+		);
+	});
+
+	// Turning on share screen and turning off share screen methods
+	ipcMain.on('sharescreen', () => {
+		if (isRunningShareScreen) {
+			return;
+		}
+		isRunningShareScreen = true;
+		applescript.execFile(
+			__dirname + '/applescripts/zoomsharescreen.scpt',
+			function (err, rtn) {
+				if (err) {
+					// Something went wrong!
+					console.log(err);
+				}
+				if (rtn) {
+					console.log(rtn);
+				}
+				isRunningShareScreen = false;
 			}
 		);
 	});
