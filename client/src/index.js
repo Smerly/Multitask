@@ -207,6 +207,7 @@ const createWindow = () => {
 	mainWindow.webContents.openDevTools();
 };
 
+// NOTE: could be merged with createWindow()
 const createMenubar = () => {
 	let isRunningAudio = false;
 	let isRunningCamera = false;
@@ -215,12 +216,14 @@ const createMenubar = () => {
 	// Create menubar tray
 	const tray = new Tray(iconPath);
 	const contextMenu = Menu.buildFromTemplate([
-		// NOTE: Redundant code for now
+
+		// The buttons on the menubar (redundant code for now)
+		// NOTE: We can make them checkbox buttons, not sure if we can make them status responsive though (e.g. checked for muted)
 		{ label: 'Mute/Unmute', click() {
 			if (isRunningAudio) {
+				// NOTE: Can we use this to change the label of our button for status responsivenes? (e.g. says mute or unmute)
 				return;
 			}
-	
 			isRunningAudio = true;
 			applescript.execFile(
 				__dirname + '/applescripts/zoomaudio.scpt',
@@ -236,7 +239,8 @@ const createMenubar = () => {
 				}
 			);
 		} },
-		{ label: 'Video', click() {
+
+		{ label: 'Start/Stop Video', click() {
 			if (isRunningCamera) {
 				return;
 			}
@@ -255,6 +259,7 @@ const createMenubar = () => {
 				}
 			);
 		} },
+
 		{ label: 'Share Screen', click() {
 			if (isRunningShareScreen) {
 				return;
@@ -274,6 +279,7 @@ const createMenubar = () => {
 				}
 			);
 		} },
+
 		{ label: 'Quit', click() { app.quit(); } },
 	]);
 	tray.setContextMenu(contextMenu);
