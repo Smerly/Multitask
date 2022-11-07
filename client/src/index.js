@@ -1,8 +1,13 @@
-const { app, BrowserWindow, webContents } = require('electron');
+const { app, Menu, Tray, BrowserWindow, webContents } = require('electron');
 const path = require('path');
 require('electron-reload')(__dirname);
 const { ipcMain, screen } = require('electron');
 var applescript = require('applescript');
+// const { menubar } = require('menubar');
+
+// iconPath for menubar found in assets folder 
+// (should be replaced with Multitask logo in 16x16 (72dpi) and 32x32@2x (144dpi) for retina monitors work well for most icons.)
+const iconPath = path.join(__dirname, '..', 'assets', 'IconTemplate.png');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 // eslint-disable-next-line global-require
@@ -202,8 +207,92 @@ const createWindow = () => {
 	mainWindow.webContents.openDevTools();
 };
 
+const createMenubar = () => {
+	let isRunningAudio = false;
+	let isRunningCamera = false;
+	let isRunningShareScreen = false;
+
+	// Create menubar tray
+	const tray = new Tray(iconPath);
+	const contextMenu = Menu.buildFromTemplate([
+		// NOTE: Redundant code for now
+		{ label: 'Mute/Unmute', click() {
+			if (isRunningAudio) {
+				return;
+			}
+	
+			isRunningAudio = true;
+			applescript.execFile(
+				__dirname + '/applescripts/zoomaudio.scpt',
+				function (err, rtn) {
+					if (err) {
+						// Something went wrong!
+						console.log(err);
+					}
+					if (rtn) {
+						console.log(rtn);
+					}
+					isRunningAudio = false;
+				}
+			);
+		} },
+		{ label: 'Video', click() {
+			if (isRunningCamera) {
+				return;
+			}
+			isRunningCamera = true;
+			applescript.execFile(
+				__dirname + '/applescripts/zoomvideo.scpt',
+				function (err, rtn) {
+					if (err) {
+						// Something went wrong!
+						console.log(err);
+					}
+					if (rtn) {
+						console.log(rtn);
+					}
+					isRunningCamera = false;
+				}
+			);
+		} },
+		{ label: 'Share Screen', click() {
+			if (isRunningShareScreen) {
+				return;
+			}
+			isRunningShareScreen = true;
+			applescript.execFile(
+				__dirname + '/applescripts/zoomsharescreen.scpt',
+				function (err, rtn) {
+					if (err) {
+						// Something went wrong!
+						console.log(err);
+					}
+					if (rtn) {
+						console.log(rtn);
+					}
+					isRunningShareScreen = false;
+				}
+			);
+		} },
+		{ label: 'Quit', click() { app.quit(); } },
+	]);
+	tray.setContextMenu(contextMenu);
+
+	// const mb = menubar({
+	// 	tray
+	// });
+
+	// // Runs all code inside when app is ready to start
+	// mb.on('ready', () => {
+	// 	console.log('Menubar app is ready.');
+	// })
+};
+
 // Run main function when the app is ready to start
-app.on('ready', createWindow);
+app.on('ready', () => {
+	createWindow();
+	createMenubar();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
